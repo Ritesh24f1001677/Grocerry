@@ -82,8 +82,8 @@ function safeUser(user) { return { id:user.id, email:user.email, display_name:us
 
 async function route(req,res) {
  const url=new URL(req.url,'http://localhost'); const p=url.pathname; const method=req.method;
- if(method==='GET' && p==='/') { res.writeHead(200,{'Content-Type':'text/html; charset=utf-8'}); return res.end(fs.readFileSync(path.join(root,'index.html'))); }
- if(method==='GET' && p==='/app.js') { res.writeHead(200,{'Content-Type':'text/javascript; charset=utf-8','Cache-Control':'no-cache'}); return res.end(fs.readFileSync(path.join(root,'app.js'))); }
+ if(method==='GET' && p==='/') { res.writeHead(200,{'Content-Type':'text/html; charset=utf-8'}); return res.end(fs.readFileSync(path.join(root,'public','index.html'))); }
+ if(method==='GET' && p==='/app.js') { res.writeHead(200,{'Content-Type':'text/javascript; charset=utf-8','Cache-Control':'no-cache'}); return res.end(fs.readFileSync(path.join(root,'public','app.js'))); }
  if(method==='GET' && p==='/api/health') return json(res,200,{ok:true,database:'sqlite'});
  if(method==='POST' && p==='/api/auth/register') {
   let data; try{data=await body(req)}catch{return fail(res,400,'Invalid request.');}
@@ -120,5 +120,6 @@ function createSession(res,user) {const token=crypto.randomBytes(32).toString('h
 const server=http.createServer((req,res)=>{Promise.resolve(route(req,res)).catch(err=>{console.error(err);if(!res.headersSent)fail(res,500,'Something went wrong. Check the server terminal.');else res.end();});});
 const host=process.env.HOST||'0.0.0.0';const port=Number(process.env.PORT||3000);
 server.listen(port,host,()=>console.log(`Gather is ready at http://localhost:${port} (listening on ${host}:${port})`));
+
 
 
