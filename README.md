@@ -1,22 +1,23 @@
-﻿# Gather — local shared grocery app
+﻿# Gather — local and Vercel grocery app
 
-Gather runs entirely on your computer with a Node.js backend and a local SQLite database. It has separate email/password accounts, invite-code households, shared grocery items and live updates between signed-in browsers.
+Gather supports a local mode (Node.js + SQLite) and a Vercel deployment (Vercel Functions + Neon Postgres). It has separate accounts, household invite codes, shared lists, and cross-device list refreshes.
 
-## Run it
+## Run locally
 
 1. Install Node.js 22.5 or newer.
-2. In this folder run `npm start` (or `node server.js`).
-3. Open `http://localhost:3000` in a browser and create an account.
-4. Create a household; give the invite code to another person. They open the same address, create their own account and join with that code.
+2. Run `npm start` in this folder.
+3. Open `http://localhost:3000`, create an account and a household, then share the invite code.
 
-The database is created automatically at `data/gather.sqlite` and persists when the server stops. No npm packages or cloud account are needed.
+The local database is created at `data/gather.sqlite`. It is ignored by Git and persists on this computer.
 
-## Use on a local network
+## Deploy on Vercel
 
-The server listens on all network interfaces. Find this computer's local IPv4 address, then other devices on the same trusted Wi-Fi can open `http://<computer-ip>:3000`. The computer must keep the app running; your firewall may ask whether to allow Node.js on your private network.
+1. Connect a Neon Postgres database to the Vercel project and make sure its connection string is available as `DATABASE_URL` in Production (and Preview if desired). The Vercel API creates its tables on first request.
+2. Import the GitHub repository `Ritesh24f1001677/Grocerry` into Vercel, or from this folder run `vercel` to link/create the project, then `vercel --prod`.
+3. Open the production URL, create an account, and create a household. Members join using the invite code.
 
-This local prototype uses HTTP and is intended for a trusted home network. Do not expose port 3000 to the public internet. Passwords are hashed with Node's scrypt, sessions are stored as hashes, and all list access is checked by the backend.
+The Vercel version uses Neon for persistent data and polls the API every 2.5 seconds for updates, because Vercel Functions are short-lived and the local SQLite file cannot persist there.
 
-## Data
+## Network note
 
-SQLite file: `data/gather.sqlite`. Back up this file to preserve accounts, lists and items. The old hosted `schema.sql` is no longer needed for this local version.
+The local app can be shared on a trusted home Wi-Fi network while the computer stays running. Do not expose the local HTTP server directly to the public internet.

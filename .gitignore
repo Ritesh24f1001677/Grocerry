@@ -1,4 +1,8 @@
-﻿data/
+﻿# Local application data and secrets
+node_modules/
+data/
+.vercel/
+.env*
 *.sqlite
 *.sqlite-shm
 *.sqlite-wal
