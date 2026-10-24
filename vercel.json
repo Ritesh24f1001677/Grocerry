@@ -2,8 +2,11 @@
   "version": 2,
   "outputDirectory": "public",
   "functions": {
-    "api/[...path].js": {
-      "maxDuration": 30
-    }
+    "api/[...path].js": { "maxDuration": 30 },
+    "api/auth/*.js": { "maxDuration": 30 },
+    "api/household.js": { "maxDuration": 30 },
+    "api/household/*.js": { "maxDuration": 30 },
+    "api/items.js": { "maxDuration": 30 },
+    "api/items/*.js": { "maxDuration": 30 }
   }
 }
