@@ -6,7 +6,7 @@ const { promisify } = require('node:util');
 const { DatabaseSync } = require('node:sqlite');
 
 const scrypt = promisify(crypto.scrypt);
-const root = __dirname;
+const root = path.resolve(__dirname, "..");
 const dataDir = path.join(root, 'data');
 fs.mkdirSync(dataDir, { recursive: true });
 const db = new DatabaseSync(path.join(dataDir, 'gather.sqlite'));
@@ -120,6 +120,7 @@ function createSession(res,user) {const token=crypto.randomBytes(32).toString('h
 const server=http.createServer((req,res)=>{Promise.resolve(route(req,res)).catch(err=>{console.error(err);if(!res.headersSent)fail(res,500,'Something went wrong. Check the server terminal.');else res.end();});});
 const host=process.env.HOST||'0.0.0.0';const port=Number(process.env.PORT||3000);
 server.listen(port,host,()=>console.log(`Gather is ready at http://localhost:${port} (listening on ${host}:${port})`));
+
 
 
 

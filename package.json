@@ -1,10 +1,10 @@
-{
+﻿{
   "name": "gather-local-grocery-list",
   "version": "1.0.0",
   "private": true,
   "description": "Local, real-time shared grocery list with SQLite backend",
   "scripts": {
-    "start": "node server.js"
+    "start": "node backend/server.js"
   },
   "engines": {
     "node": ">=22.5.0"
@@ -13,3 +13,4 @@
     "@neondatabase/serverless": "^1.2.0"
   }
 }
+
